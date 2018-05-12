@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/home"></item>
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/system"></item>
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/navigation"></item>
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/project"></item>
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/openapis"></item>
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/tool"></item>
+    </group>
+</menu>
