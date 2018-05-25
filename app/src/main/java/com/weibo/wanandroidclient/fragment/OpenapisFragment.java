@@ -5,11 +5,11 @@ import com.weibo.wanandroidclient.R;
 /**
  * @author weibo
  */
-public class HomeFragment extends BaseFragment {
+public class OpenapisFragment extends BaseFragment {
 
-    public static final String TAG = HomeFragment.class.getSimpleName();
+    public static final String TAG = OpenapisFragment.class.getSimpleName();
 
-    public HomeFragment() {
+    public OpenapisFragment() {
     }
 
     /**
@@ -17,12 +17,12 @@ public class HomeFragment extends BaseFragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment HomeFragment.
      */
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static OpenapisFragment newInstance() {
+        OpenapisFragment fragment = new OpenapisFragment();
         return fragment;
     }
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_openapis;
     }
 }

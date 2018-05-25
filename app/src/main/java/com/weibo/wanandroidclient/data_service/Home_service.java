@@ -7,6 +7,6 @@ import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 public interface Home_service {
-    @GET(Constant.HOME)
-    Observable<Home> get();
+    @GET(Constant.URL.HOME)
+    Observable<Home> getHomeData();
 }

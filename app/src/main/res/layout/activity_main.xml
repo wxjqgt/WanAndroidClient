@@ -10,7 +10,8 @@
 
     <android.support.design.widget.CollapsingToolbarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -26,10 +27,10 @@
                 app:title="title"></android.support.v7.widget.Toolbar>
 
             <FrameLayout
+                android:background="@android:color/white"
                 android:id="@+id/fragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent"></FrameLayout>
+                android:layout_height="match_parent"></FrameLayout>
 
         </android.support.design.widget.AppBarLayout>
 
