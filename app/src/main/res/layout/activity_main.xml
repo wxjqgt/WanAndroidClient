@@ -10,8 +10,7 @@
 
     <android.support.design.widget.CollapsingToolbarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -24,13 +23,13 @@
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="snap"
                 app:navigationIcon="@mipmap/more"
-                app:title="title"></android.support.v7.widget.Toolbar>
+                app:title="@string/home"></android.support.v7.widget.Toolbar>
 
             <FrameLayout
-                android:background="@android:color/white"
                 android:id="@+id/fragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></FrameLayout>
+                android:layout_height="match_parent"
+                android:background="@android:color/white"></FrameLayout>
 
         </android.support.design.widget.AppBarLayout>
 

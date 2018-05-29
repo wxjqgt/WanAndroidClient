@@ -81,16 +81,15 @@ public class MainActivity extends BaseActivity {
      */
     private void selectTitle(String title) {
         FragmentTransaction ft = fm.beginTransaction();
-        ft.hide(lastFragment);
         Fragment fragment = null;
-        String tag = null;
+        ft.hide(lastFragment);
         switch (title) {
             case Constant.MENU_ITEM.HOME:
                 fragment = fm.findFragmentByTag(HomeFragment.TAG);
                 ft.show(fragment);
                 break;
             case Constant.MENU_ITEM.SYSTEM:
-                tag = SystemFragment.TAG;
+                String tag = SystemFragment.TAG;
                 fragment = fm.findFragmentByTag(tag);
                 if (fragment == null) {
                     fragment = SystemFragment.newInstance();
@@ -144,6 +143,7 @@ public class MainActivity extends BaseActivity {
         }
         lastFragment = fragment;
         ft.commit();
+        toolbar.setTitle(title);
     }
 
     @Override
