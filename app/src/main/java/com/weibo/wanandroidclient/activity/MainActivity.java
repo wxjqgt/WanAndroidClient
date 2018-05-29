@@ -1,41 +1,28 @@
 package com.weibo.wanandroidclient.activity;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.weibo.wanandroidclient.R;
-import com.weibo.wanandroidclient.data_service.Home_service;
-import com.weibo.wanandroidclient.entity.home.Datas_item;
-import com.weibo.wanandroidclient.entity.home.Home;
 import com.weibo.wanandroidclient.fragment.HomeFragment;
 import com.weibo.wanandroidclient.fragment.NavigationFragment;
 import com.weibo.wanandroidclient.fragment.OpenapisFragment;
 import com.weibo.wanandroidclient.fragment.ProjectFragment;
 import com.weibo.wanandroidclient.fragment.SystemFragment;
 import com.weibo.wanandroidclient.fragment.ToolFragment;
-import com.weibo.wanandroidclient.util.Constant;
-import com.weibo.wanandroidclient.util.LogUtil;
-import com.weibo.wanandroidclient.util.RetrofitUtil;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author weibo
  * 主Activity
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
     private NavigationView navigationView;
@@ -47,48 +34,45 @@ public class MainActivity extends BaseActivity {
         navigationView = findViewById(R.id.navigationView);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.home);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     protected void init() {
-        int itemCount = 5;
-        for (int i = 0; i <= itemCount; i++) {
-            navigationView.getMenu().getItem(i)
-                    .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            String title = menuItem.getTitle().toString();
-                            selectTitle(title);
-                            menuItem.setChecked(true);
-                            drawerLayout.closeDrawer(Gravity.LEFT);
-                            return false;
-                        }
-                    });
-        }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(Gravity.LEFT);
-            }
-        });
         navigationView.getMenu().getItem(0).setChecked(true);
         lastFragment = HomeFragment.newInstance();
         fm.beginTransaction().add(R.id.fragment, lastFragment, HomeFragment.TAG).commit();
     }
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        selectFragment(menuItem.getItemId());
+        toolbar.setTitle(menuItem.getTitle());
+        drawerLayout.closeDrawer(Gravity.START);
+        return true;
+    }
     /**
      * 选择指定标题对应的fragment进行显示
      */
-    private void selectTitle(String title) {
+    private void selectFragment(int itemId) {
         FragmentTransaction ft = fm.beginTransaction();
         Fragment fragment = null;
         ft.hide(lastFragment);
-        switch (title) {
-            case Constant.MENU_ITEM.HOME:
+        switch (itemId) {
+            case R.id.home:
                 fragment = fm.findFragmentByTag(HomeFragment.TAG);
                 ft.show(fragment);
                 break;
-            case Constant.MENU_ITEM.SYSTEM:
+            case R.id.system:
                 String tag = SystemFragment.TAG;
                 fragment = fm.findFragmentByTag(tag);
                 if (fragment == null) {
@@ -98,7 +82,7 @@ public class MainActivity extends BaseActivity {
                     ft.show(fragment);
                 }
                 break;
-            case Constant.MENU_ITEM.NAVIGATION:
+            case R.id.navigation:
                 tag = NavigationFragment.TAG;
                 fragment = fm.findFragmentByTag(tag);
                 if (fragment == null) {
@@ -108,7 +92,7 @@ public class MainActivity extends BaseActivity {
                     ft.show(fragment);
                 }
                 break;
-            case Constant.MENU_ITEM.PROJECT:
+            case R.id.project:
                 tag = ProjectFragment.TAG;
                 fragment = fm.findFragmentByTag(tag);
                 if (fragment == null) {
@@ -118,7 +102,7 @@ public class MainActivity extends BaseActivity {
                     ft.show(fragment);
                 }
                 break;
-            case Constant.MENU_ITEM.OPENAPIS:
+            case R.id.openapis:
                 tag = OpenapisFragment.TAG;
                 fragment = fm.findFragmentByTag(tag);
                 if (fragment == null) {
@@ -128,7 +112,7 @@ public class MainActivity extends BaseActivity {
                     ft.show(fragment);
                 }
                 break;
-            case Constant.MENU_ITEM.TOOL:
+            case R.id.tool:
                 tag = ToolFragment.TAG;
                 fragment = fm.findFragmentByTag(tag);
                 if (fragment == null) {
@@ -143,11 +127,6 @@ public class MainActivity extends BaseActivity {
         }
         lastFragment = fragment;
         ft.commit();
-        toolbar.setTitle(title);
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_main;
-    }
 }

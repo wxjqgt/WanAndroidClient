@@ -2,21 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/home"
             android:icon="@mipmap/home"
             android:title="@string/home"></item>
         <item
+            android:id="@+id/system"
             android:icon="@mipmap/system"
             android:title="@string/system"></item>
         <item
+            android:id="@+id/navigation"
             android:icon="@mipmap/navigation"
             android:title="@string/navigation"></item>
         <item
+            android:id="@+id/project"
             android:icon="@mipmap/project"
             android:title="@string/project"></item>
         <item
+            android:id="@+id/openapis"
             android:icon="@mipmap/openapis"
             android:title="@string/openapis"></item>
         <item
+            android:id="@+id/tool"
             android:icon="@mipmap/tool"
             android:title="@string/tool"></item>
     </group>
