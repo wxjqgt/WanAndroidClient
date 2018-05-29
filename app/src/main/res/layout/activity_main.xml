@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="snap"
-                app:navigationIcon="@mipmap/ic_launcher"
+                app:navigationIcon="@mipmap/more"
                 app:title="title"></android.support.v7.widget.Toolbar>
 
             <FrameLayout

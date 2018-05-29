@@ -21,4 +21,10 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void findView(){}
     @LayoutRes
     protected abstract int getLayoutId();
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        fm = null;
+    }
 }

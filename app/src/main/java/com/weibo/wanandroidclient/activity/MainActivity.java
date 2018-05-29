@@ -51,7 +51,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        for (int i = 0; i < 6; i++) {
+        int itemCount = 5;
+        for (int i = 0; i <= itemCount; i++) {
             navigationView.getMenu().getItem(i)
                     .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
