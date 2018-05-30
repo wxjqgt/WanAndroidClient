@@ -25,8 +25,29 @@ public abstract class BaseFragment extends RxFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(getLayoutId(),container,false);
+        initView();
         return view;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (getUserVisibleHint() && view != null) {
+            loadData();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && view != null) {
+            loadData();
+        }
+    }
+
+    protected void initView() {}
+
+    protected void loadData() {}
 
     @LayoutRes
     protected abstract int getLayoutId();

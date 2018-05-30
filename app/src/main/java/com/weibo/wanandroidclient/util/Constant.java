@@ -9,7 +9,7 @@ public final class Constant {
         /**
          * 首页
          */
-        public static final String HOME = "article/list/0/json";
+        public static final String HOME = "article/list/";
     }
 
 }
