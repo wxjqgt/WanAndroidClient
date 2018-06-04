@@ -1,6 +1,7 @@
 package com.weibo.wanandroidclient.fragment;
 
 import android.graphics.Color;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -25,17 +26,21 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author weibo
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
 
     private RecyclerView recyclerView_article;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void initView() {
         recyclerView_article = view.findViewById(R.id.recycleView_article);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
         recyclerView_article.setLayoutManager(linearLayoutManager);
+
+        refreshLayout = view.findViewById(R.id.swipeRefresh_home);
+        refreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -87,6 +92,11 @@ public class HomeFragment extends BaseFragment {
                 });
     }
 
+    @Override
+    public void onRefresh() {
+        refreshLayout.setRefreshing(false);
+    }
+
     public HomeFragment() {
     }
 
@@ -99,4 +109,5 @@ public class HomeFragment extends BaseFragment {
     protected int getLayoutId() {
         return R.layout.fragment_home;
     }
+
 }
