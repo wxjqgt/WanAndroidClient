@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.weibo.wanandroidclient.util.GlideUtil;
 
 /**
  * Created by Administrator on 2016/7/9.
@@ -35,8 +38,13 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         return (T) view;
     }
 
-    public void setText(int id, String text) {
+    public void setText(int id, CharSequence text) {
         ((TextView) getView(id)).setText(text);
+    }
+
+    public void setImageView(int id, int resId) {
+        ImageView imageView = getView(id);
+        GlideUtil.into(itemView, resId, imageView);
     }
 
 }
