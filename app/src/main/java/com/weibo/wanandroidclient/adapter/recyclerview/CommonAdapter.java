@@ -10,29 +10,29 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/7/9.
  */
-public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>{
+public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     private List<T> datas;
     private Context context;
     private int layoutId;
 
-    public CommonAdapter(Context context,int layoutId,List<T> datas) {
+    public CommonAdapter(Context context, int layoutId, List<T> datas) {
         this.context = context;
         this.datas = datas;
         this.layoutId = layoutId;
     }
 
-    public void addDatas(List<T> datas){
+    public void addDatas(List<T> datas) {
         this.datas.addAll(datas);
         this.notifyDataSetChanged();
     }
 
-    public void setDatas(List<T> datas){
+    public void setDatas(List<T> datas) {
         this.datas.clear();
         addDatas(datas);
     }
 
-    public void clear(){
+    public void clear() {
         this.datas.clear();
         notifyDataSetChanged();
     }
@@ -44,15 +44,15 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>{
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return ViewHolder.createViewHolder(context, LayoutInflater.from(context).inflate(layoutId,parent,false));
+        return ViewHolder.createViewHolder(context, LayoutInflater.from(context).inflate(layoutId, parent, false));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        convert(holder,datas.get(position),position);
+        convert(holder, datas.get(position), position);
     }
 
-    public abstract void convert(ViewHolder holder,T t,int position);
+    public abstract void convert(ViewHolder holder, T t, int position);
 
     @Override
     public int getItemCount() {
