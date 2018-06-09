@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/7/9.
+ * Created by weibo on 2016/7/9.
  */
 public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
@@ -34,7 +34,7 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
 
     public void clear() {
         this.datas.clear();
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     @Override

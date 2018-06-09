@@ -44,7 +44,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 
     public void setImageView(int id, int resId) {
         ImageView imageView = getView(id);
-        GlideUtil.into(itemView, resId, imageView);
+        GlideUtil.load(itemView, resId, imageView);
     }
 
 }
