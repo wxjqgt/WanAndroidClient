@@ -15,7 +15,7 @@
         android:layout_height="30dp"
         android:layout_gravity="bottom"
         android:gravity="right|center_vertical"
-        android:background="#FF99989F"
+        android:paddingRight="10dp"
         android:orientation="horizontal"
         >
 

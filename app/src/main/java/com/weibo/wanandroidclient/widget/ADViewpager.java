@@ -183,8 +183,12 @@ public class ADViewpager extends FrameLayout implements ViewPager.OnPageChangeLi
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = convert(datas.get(position), position);
-            if(titleSetting != null){
-                titleSetting.setTitle(datas.get(position - 1));
+            if(titleSetting != null) {
+                if (position == 0) {
+                    titleSetting.setTitle(datas.get(datas.size() - 1));
+                } else {
+                    titleSetting.setTitle(datas.get(position - 1));
+                }
             }
             container.addView(view);
             return view;
