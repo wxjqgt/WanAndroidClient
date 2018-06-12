@@ -16,7 +16,7 @@ import com.weibo.wanandroidclient.entity.home.banner.Banner;
 import com.weibo.wanandroidclient.service.home.ArticleService;
 import com.weibo.wanandroidclient.service.home.BannerService;
 import com.weibo.wanandroidclient.util.RetrofitUtil;
-import com.weibo.wanandroidclient.widget.yviewpager.ADViewpager;
+import com.weibo.wanandroidclient.widget.ADViewpager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author weibo
  */
-public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     public static final String TAG = HomeFragment.class.getSimpleName();
     private int lastVisibleItem, pageCount = 0;
@@ -50,7 +50,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         adapter = new HeaderAndFooterWrapper<>(articleAdapter);
 
         headerView = View.inflate(context, R.layout.home_banner, null);
-
         View footerView = View.inflate(context, R.layout.home_loadmore, null);
         adapter.addHeaderView(headerView);
         adapter.addFootView(footerView);
@@ -85,8 +84,16 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     public void accept(List<Banner.Data> datas) throws Exception {
                         if (bannerAdapter == null) {
                             bannerAdapter = new BannerAdapter(datas, context);
-                            ADViewpager vp_banner = headerView.findViewById(R.id.vp_banner);
+                            final ADViewpager vp_banner = headerView.findViewById(R.id.vp_banner);
+                            vp_banner.setIcon(R.mipmap.selected, R.mipmap.reverse);
                             vp_banner.setAdapter(bannerAdapter);
+                            vp_banner.startCycle();
+                            bannerAdapter.registTitleSettingListener(new ADViewpager.TitleSetting<Banner.Data>() {
+                                @Override
+                                public void setTitle(Banner.Data data) {
+                                    vp_banner.setTitle(data.getTitle());
+                                }
+                            });
                         } else {
                             bannerAdapter.setDatas(datas);
                         }
@@ -157,4 +164,9 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         return R.layout.fragment_home;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        bannerAdapter.unRegistTitleSettingListener();
+    }
 }

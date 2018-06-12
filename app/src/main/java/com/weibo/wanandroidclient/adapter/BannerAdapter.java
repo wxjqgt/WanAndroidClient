@@ -2,13 +2,12 @@ package com.weibo.wanandroidclient.adapter;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.weibo.wanandroidclient.R;
 import com.weibo.wanandroidclient.entity.home.banner.Banner;
 import com.weibo.wanandroidclient.util.GlideUtil;
-import com.weibo.wanandroidclient.widget.yviewpager.ADViewpager;
+import com.weibo.wanandroidclient.widget.ADViewpager;
 
 import java.util.List;
 
@@ -23,12 +22,11 @@ public class BannerAdapter extends ADViewpager.CommonViewPagerAdapter<Banner.Dat
 
     @Override
     public View convert(Banner.Data data, int position) {
-        View view = View.inflate(context, R.layout.banner_item,null);
-        ImageView imageView = view.findViewById(R.id.iv_banner);
-        TextView textView = view.findViewById(R.id.tv_banner);
+        ImageView imageView = new ImageView(context);
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         GlideUtil.load(imageView,data.getImagePath(),imageView);
-        textView.setText(data.getTitle());
-        return view;
+        return imageView;
     }
 
 }

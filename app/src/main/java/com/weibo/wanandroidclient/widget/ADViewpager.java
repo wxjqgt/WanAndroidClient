@@ -1,4 +1,4 @@
-package com.weibo.wanandroidclient.widget.yviewpager;
+package com.weibo.wanandroidclient.widget;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.weibo.wanandroidclient.R;
 
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/8.
  */
-public class ADViewpager extends FrameLayout {
+public class ADViewpager extends FrameLayout implements ViewPager.OnPageChangeListener {
 
     private static final int OK = 0x1;
 
@@ -29,6 +30,7 @@ public class ADViewpager extends FrameLayout {
     private LinearLayout linearLayout;
     private ViewPager viewPager;
     private ImageView lastImageView;
+    private TextView textView_title;
 
     public void setAdapter(PagerAdapter pagerAdapter) {
         viewPager.setAdapter(pagerAdapter);
@@ -60,73 +62,22 @@ public class ADViewpager extends FrameLayout {
         inflate(context, R.layout.viewpager, this);
         viewPager = findViewById(R.id.viewpager);
         linearLayout = findViewById(R.id.linear_icon);
-
+        textView_title = findViewById(R.id.title);
     }
 
     private void build() {
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                OnPageSelected(i);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
+        viewPager.addOnPageChangeListener(this);
         int icons = count - 2;
         for (int i = 0; i < icons; i++) {
             ImageView imageView = new ImageView(context);
             imageView.setImageResource(reversRes);
             linearLayout.addView(imageView);
         }
-
         viewPager.setCurrentItem(1);
     }
 
     public void stopCycle() {
         recycle = false;
-    }
-
-    public void OnPageSelected(final int position) {
-        int p = position;
-        if (position == count - 1) {
-            p = 1;
-            viewPager.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    viewPager.setCurrentItem(1, false);
-                }
-            }, 1000);
-        } else if (position == 0) {
-            p = count - 2;
-            viewPager.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    viewPager.setCurrentItem(count - 2, false);
-                }
-            }, 1000);
-        }
-        if (lastImageView != null) {
-            lastImageView.setImageResource(reversRes);
-        }
-        ImageView imageView = (ImageView) linearLayout.getChildAt(p - 1);
-        imageView.setImageResource(frontRes);
-        lastImageView = imageView;
-        viewPager.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (recycle) {
-                    viewPager.setCurrentItem(position + 1);
-                }
-            }
-        }, seconds * 1000);
     }
 
     public ADViewpager(Context context) {
@@ -144,9 +95,65 @@ public class ADViewpager extends FrameLayout {
         init(context);
     }
 
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+
+    }
+
+    @Override
+    public void onPageSelected(final int position) {
+        int p = position;
+        if (position == count - 1) {
+            p = 1;
+            viewPager.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    viewPager.setCurrentItem(1, false);
+                }
+            }, 1000);
+        } else if (position == 0) {
+            p = count - 2;
+            viewPager.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    viewPager.setCurrentItem(count - 2, false);
+                }
+            }, 1000);
+        } else {
+            viewPager.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (recycle) {
+                        viewPager.setCurrentItem(position + 1);
+                    }
+                }
+            }, seconds * 1000);
+        }
+        if (lastImageView != null) {
+            lastImageView.setImageResource(reversRes);
+        }
+        ImageView imageView = (ImageView) linearLayout.getChildAt(p - 1);
+        imageView.setImageResource(frontRes);
+        lastImageView = imageView;
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+
+    }
+
+    public void setTitle(String title){
+        textView_title.setText(title);
+    }
+
+    public interface TitleSetting<T> {
+        void setTitle(T t);
+    }
+
     public abstract static class CommonViewPagerAdapter<T> extends PagerAdapter {
 
         private List<T> datas;
+        public TitleSetting<T> titleSetting;
 
         public CommonViewPagerAdapter(List<T> datas) {
             this.datas = new ArrayList<>();
@@ -156,18 +163,29 @@ public class ADViewpager extends FrameLayout {
             this.datas.add(datas.get(0));
         }
 
-        public void addDatas(List<T> datas) {
-            this.datas.addAll(datas);
-            this.notifyDataSetChanged();
-        }
         public void setDatas(List<T> datas) {
             this.datas.clear();
-            addDatas(datas);
+            int size = datas.size();
+            this.datas.add(datas.get(size - 1));
+            this.datas.addAll(datas);
+            this.datas.add(datas.get(0));
+            this.notifyDataSetChanged();
+        }
+
+        public void registTitleSettingListener(TitleSetting<T> titleSetting) {
+            this.titleSetting = titleSetting;
+        }
+
+        public void unRegistTitleSettingListener() {
+            titleSetting = null;
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = convert(datas.get(position), position);
+            if(titleSetting != null){
+                titleSetting.setTitle(datas.get(position - 1));
+            }
             container.addView(view);
             return view;
         }
